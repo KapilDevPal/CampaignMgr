@@ -1,0 +1,171 @@
+<!DOCTYPE html><html class="dark" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Indian Space Hub | Early Access Invitation</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&amp;family=Space+Grotesk:wght@600&amp;family=JetBrains+Mono&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#93000a",
+                        "on-error": "#690005",
+                        "inverse-surface": "#e2e2e2",
+                        "tertiary-fixed": "#68fadd",
+                        "surface-container-lowest": "#0c0f0f",
+                        "surface": "#121414",
+                        "secondary-fixed-dim": "#bac3ff",
+                        "on-tertiary-fixed-variant": "#005145",
+                        "inverse-primary": "#585d77",
+                        "surface-container-low": "#1a1c1c",
+                        "on-surface": "#e2e2e2",
+                        "secondary-container": "#2c3ea3",
+                        "on-secondary": "#08218a",
+                        "primary-fixed-dim": "#c1c5e3",
+                        "primary-fixed": "#dde1ff",
+                        "on-tertiary-container": "#008d79",
+                        "tertiary": "#44ddc1",
+                        "inverse-on-surface": "#2f3131",
+                        "background": "#0B1026",
+                        "surface-container": "#1e2020",
+                        "primary": "#c1c5e3",
+                        "tertiary-container": "#001511",
+                        "on-primary-container": "#777c97",
+                        "surface-container-high": "#282a2b",
+                        "surface-tint": "#c1c5e3",
+                        "secondary": "#bac3ff",
+                        "surface-variant": "#333535",
+                        "secondary-fixed": "#dee0ff",
+                        "on-primary": "#2a2f47",
+                        "surface-dim": "#121414",
+                        "on-secondary-container": "#a8b4ff",
+                        "on-tertiary-fixed": "#00201a",
+                        "on-secondary-fixed-variant": "#293ca0",
+                        "surface-container-highest": "#333535",
+                        "on-surface-variant": "#c7c5ce",
+                        "tertiary-fixed-dim": "#44ddc1",
+                        "primary-container": "#0b1026",
+                        "outline": "#919097",
+                        "on-error-container": "#ffdad6",
+                        "error": "#ffb4ab",
+                        "surface-bright": "#37393a",
+                        "on-primary-fixed-variant": "#41455e",
+                        "outline-variant": "#46464d",
+                        "on-tertiary": "#00382f",
+                        "on-secondary-fixed": "#00105c",
+                        "on-primary-fixed": "#151a31",
+                        "on-background": "#e2e2e2"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max": "1280px",
+                        "margin-mobile": "16px",
+                        "base": "8px",
+                        "margin-desktop": "48px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-caps": ["Space Grotesk"],
+                        "headline-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "mono": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.15em", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(18, 20, 20, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .cosmic-glow {
+            box-shadow: 0 0 30px rgba(63, 81, 181, 0.4);
+        }
+        .cosmic-flow-btn {
+            background: linear-gradient(135deg, #2c3ea3 0%, #0b1026 100%);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .text-gradient {
+            background: linear-gradient(to right, #ffffff, #c1c5e3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="bg-[#05070A] text-on-background font-body-md min-h-screen selection:bg-tertiary selection:text-on-tertiary overflow-x-hidden">
+<header class="w-full pt-12 pb-8">
+<nav class="flex flex-col items-center gap-6 max-w-container-max mx-auto">
+<img alt="Indian Space Hub Logo" class="h-20 w-20 rounded-2xl shadow-2xl" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDRPMnORXb9taD88VEsp49E2NZIqaJ7i-rVJ9ZIcZBUJZsaNKhohW8MBn2TmJqOwwDIhSMg2vfsdq1XKJ_VWk0nOV3Z_NbhtLuOnpqJ120aWIAz0SfRlRy71eUjdqF2dN0-Iv_BWhDLB_Vl1KdD8kPevEMNbYAH17tPrrCY9JsgBs8Dd5yv91r70zQzT7qpYCTAlb9QoSbo6Y_3LO08NuhHKBQnUjVN23eaRAbIP4crJtzmfw4st-EhsBP9pa2UpE8J3SYsxMcTD8">
+<span class="font-label-caps text-label-caps tracking-[0.3em] text-primary">INDIAN SPACE HUB</span>
+</nav>
+</header>
+<main class="max-w-4xl mx-auto px-margin-mobile md:px-0">
+<!-- Hero Section -->
+<section class="relative w-full overflow-hidden rounded-[48px] mb-12 bg-surface-container-low group">
+<div class="aspect-[4/5] md:aspect-[16/10] relative">
+<img alt="Indian Space Hub Hero" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqKHKFO77vIoGMk96bCYcAu1T0YSXvGcZ_NIoICwmoRIXMqfLALn8xryoUiGBhm652UQLSR9KkNg9KgyZerTamzM04XT2W82L10UPqhDD7kqcQRTESlNAEqP65mOgamQXLdHga_yrv7S-UDgMufO2zRh9po_unWPxkQR7Gof3_kz8J1jZyj4dULvDvrL-gScBZeO2svo_Kl2-B_ay1OZeLnOVdwkuQGVlfmVZITcWqDMmB9RnO1uYWsPVLjFNmNQ8YkqS3p5AIfmU">
+<!-- Subtle gradient to ensure lower text legibility while keeping face clear -->
+<div class="absolute inset-0 bg-gradient-to-t from-[#05070A] via-transparent to-transparent opacity-60"></div>
+</div>
+</section>
+<!-- Message Section -->
+<section class="text-center py-12 space-y-8">
+<div class="space-y-4">
+<h1 class="font-display-lg text-display-lg text-gradient leading-tight">
+                Welcome to the ----</h1>
+<p class="font-body-lg text-on-surface-variant max-w-xl mx-auto">
+                You've been handpicked for our exclusive Play Store Early Access program. Experience the next generation of space telemetry and orbital exploration.
+            </p>
+</div>
+<div class="flex justify-center pt-6">
+<a class="cosmic-flow-btn px-12 py-5 rounded-full text-white font-bold font-body-lg flex items-center gap-4 group transition-all duration-500 hover:scale-105 cosmic-glow" href="#">Join on Play Store<span class="material-symbols-outlined transition-transform group-hover:translate-x-1">arrow_forward</span></a>
+</div>
+<p class="font-mono text-[10px] text-tertiary/60 uppercase tracking-[0.2em] pt-4">
+            Limited Deployment • Alpha Phase 1.0
+        </p>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-16 mt-12 bg-black/20 border-t border-white/5">
+<div class="max-w-2xl mx-auto px-margin-mobile text-center space-y-8">
+<div class="flex justify-center gap-8">
+<a class="font-label-caps text-[10px] text-on-surface-variant hover:text-tertiary transition-colors tracking-widest" href="#">PRIVACY</a>
+<a class="font-label-caps text-[10px] text-on-surface-variant hover:text-tertiary transition-colors tracking-widest" href="#">TERMS</a>
+<a class="font-label-caps text-[10px] text-on-surface-variant hover:text-tertiary transition-colors tracking-widest" href="#">SUPPORT</a>
+</div>
+<div class="space-y-2">
+<p class="font-label-caps text-[10px] text-on-surface-variant/40 uppercase tracking-[0.2em]">
+                © 2024 INDIAN SPACE HUB
+            </p>
+<p class="font-mono text-[9px] text-primary/30 uppercase">
+                Secure Transmission: ISH-NODE-PRIMARY-V7
+            </p>
+</div>
+</div>
+</footer>
+
+
+</body></html>
