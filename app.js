@@ -27,10 +27,22 @@ const defaultInviteTemplate = `<!DOCTYPE html>
 
     <!-- Header -->
     <tr>
-        <td align="center" style="padding:35px 30px 10px 30px;">
-            <h1 style="margin:0;color:#60a5fa;font-size:32px;font-weight:700;">
-                🚀 Early Access Invitation
-            </h1>
+                <td align="center" style="padding:35px 30px 10px 30px;">
+                            <h1 style="
+            margin: 0;
+            font-size: 38px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            font-family: 'Marcellus', 'Playfair Display', serif;
+            background: linear-gradient(135deg, #bf953f 0%, #fcf6ba 50%, #aa771c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        ">
+            <span style="-webkit-text-fill-color: initial;"></span> Early Access Invitation
+        </h1>
         </td>
     </tr>
 
@@ -53,30 +65,6 @@ const defaultInviteTemplate = `<!DOCTYPE html>
                 features, explore the platform before public release, and help
                 shape the future of the experience through your valuable feedback.
             </p>
-
-            <!-- Benefits Box -->
-            <table width="100%" cellpadding="0" cellspacing="0" border="0"
-                   style="background:#0f172a;border:1px solid #334155;border-radius:12px;">
-                <tr>
-                    <td style="padding:20px;">
-                        <h3 style="margin:0 0 12px 0;color:#60a5fa;">
-                            Your Early Access Benefits
-                        </h3>
-
-                        <p style="margin:8px 0;color:#cbd5e1;font-size:15px;">
-                            ✅ Access new features before everyone else
-                        </p>
-
-                        <p style="margin:8px 0;color:#cbd5e1;font-size:15px;">
-                            ✅ Receive priority updates and announcements
-                        </p>
-
-                        <p style="margin:8px 0;color:#cbd5e1;font-size:15px;">
-                            ✅ Share feedback directly with our team
-                        </p>
-                    </td>
-                </tr>
-            </table>
 
             <!-- Play Store Badge -->
             <div style="text-align:center;padding-top:35px;padding-bottom:20px;">
