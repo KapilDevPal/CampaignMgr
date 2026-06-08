@@ -336,6 +336,15 @@ document.addEventListener('alpine:init', () => {
                 this.contacts = JSON.parse(savedContacts);
             }
             
+            const savedTemplates = localStorage.getItem('templates');
+            if (savedTemplates) {
+                try {
+                    this.templates = JSON.parse(savedTemplates);
+                } catch (e) {
+                    console.warn('Failed to load custom templates, using defaults');
+                }
+            }
+            
             const savedTemplateId = localStorage.getItem('selectedTemplateId');
             if (savedTemplateId) {
                 this.selectedTemplateId = savedTemplateId;
@@ -467,6 +476,58 @@ document.addEventListener('alpine:init', () => {
         },
 
         // --- Template Methods ---
+        newCustomTemplate: {
+            name: '',
+            subject: '',
+            body: ''
+        },
+        
+        showCustomTemplateForm: false,
+        
+        addCustomTemplate() {
+            if (!this.newCustomTemplate.name.trim()) {
+                this.showToast('Please enter a template name.', 'error');
+                return;
+            }
+            if (!this.newCustomTemplate.subject.trim()) {
+                this.showToast('Please enter a subject.', 'error');
+                return;
+            }
+            if (!this.newCustomTemplate.body.trim()) {
+                this.showToast('Please enter HTML body.', 'error');
+                return;
+            }
+            
+            const customTemplate = {
+                id: 'custom_' + Date.now(),
+                name: this.newCustomTemplate.name.trim(),
+                subject: this.newCustomTemplate.subject.trim(),
+                body: this.newCustomTemplate.body.trim(),
+                isCustom: true
+            };
+            
+            this.templates.push(customTemplate);
+            localStorage.setItem('templates', JSON.stringify(this.templates));
+            
+            this.newCustomTemplate = { name: '', subject: '', body: '' };
+            this.showCustomTemplateForm = false;
+            this.showToast(`Custom template "${customTemplate.name}" created!`, 'success');
+        },
+        
+        deleteCustomTemplate(templateId) {
+            if (!confirm('Are you sure you want to delete this custom template?')) return;
+            
+            this.templates = this.templates.filter(t => t.id !== templateId);
+            localStorage.setItem('templates', JSON.stringify(this.templates));
+            
+            if (this.selectedTemplateId === templateId) {
+                this.selectedTemplateId = '';
+                this.draft = { subject: '', body: '' };
+            }
+            
+            this.showToast('Template deleted.', 'success');
+        },
+
         loadSelectedTemplate() {
             if (!this.selectedTemplateId) return;
             const template = this.templates.find(t => t.id === this.selectedTemplateId);
@@ -522,6 +583,14 @@ document.addEventListener('alpine:init', () => {
 
         // --- Sending Methods ---
         async sendSingleEmail(contact, isTest = false) {
+            if (!contact || !contact.email) {
+                throw new Error("Invalid contact: missing email address");
+            }
+            
+            if (!contact.email.includes('@')) {
+                throw new Error(`Invalid email format: ${contact.email}`);
+            }
+            
             if (!this.smtp.host || !this.smtp.username || !this.smtp.password) {
                 throw new Error("SMTP Settings are incomplete.");
             }
@@ -529,10 +598,12 @@ document.addEventListener('alpine:init', () => {
             const subject = this.replaceVariables(this.draft.subject, contact);
             const body = this.replaceVariables(this.draft.body, contact);
             
-            let toField = contact.email;
+            let toField = contact.email.trim();
             if (contact.first_name || contact.last_name) {
                 const name = `${contact.first_name || ''} ${contact.last_name || ''}`.trim();
-                toField = `"${name}" <${contact.email}>`;
+                if (name) {
+                    toField = `"${name}" <${contact.email.trim()}>`;
+                }
             }
 
             // Local SMTP Proxy implementation
@@ -626,18 +697,40 @@ document.addEventListener('alpine:init', () => {
                 this.showToast('No contacts imported!', 'error');
                 return;
             }
+            
+            // Validate contacts
+            const validContacts = this.contacts.filter(c => c && c.email && c.email.includes('@'));
+            if (validContacts.length === 0) {
+                this.showToast('No valid email addresses found in contacts!', 'error');
+                return;
+            }
+            
             if (!this.draft.subject || !this.draft.body) {
                 this.showToast('Draft is empty!', 'error');
                 return;
             }
-            if (!confirm(`Are you sure you want to send this campaign to ${this.contacts.length} contacts?`)) {
+            
+            const invalidCount = this.contacts.length - validContacts.length;
+            let message = `Are you sure you want to send this campaign to ${validContacts.length} contacts?`;
+            if (invalidCount > 0) {
+                message += `\n\n⚠️ Note: ${invalidCount} contact(s) will be skipped due to invalid email addresses.`;
+            }
+            
+            if (!confirm(message)) {
                 return;
             }
 
             this.campaign.isSending = true;
             this.campaign.isPaused = false;
+            this.campaign.currentIndex = 0;
+            this.campaign.progress = 0;
             this.currentTab = 'console';
-            this.addLog('info', `Campaign started for ${this.contacts.length} contacts.`);
+            
+            if (invalidCount > 0) {
+                this.addLog('info', `Campaign started for ${validContacts.length} valid contacts (${invalidCount} invalid).`);
+            } else {
+                this.addLog('info', `Campaign started for ${validContacts.length} contacts.`);
+            }
 
             this.processQueue();
         },
@@ -665,17 +758,27 @@ document.addEventListener('alpine:init', () => {
             while (this.campaign.isSending && !this.campaign.isPaused && this.campaign.currentIndex < this.contacts.length) {
                 const contact = this.contacts[this.campaign.currentIndex];
                 
+                // Validate contact before sending
+                if (!contact || !contact.email || !contact.email.trim()) {
+                    this.campaign.failed++;
+                    localStorage.setItem('analytics_failed', this.campaign.failed);
+                    this.addLog('error', `Skipped invalid contact at index ${this.campaign.currentIndex}: missing email`);
+                    this.campaign.currentIndex++;
+                    this.campaign.progress = Math.round((this.campaign.currentIndex / this.contacts.length) * 100);
+                    continue;
+                }
+                
                 try {
-                    this.addLog('info', `Sending to ${contact.email}...`);
+                    this.addLog('info', `[${this.campaign.currentIndex + 1}/${this.contacts.length}] Sending to ${contact.email}...`);
                     await this.sendSingleEmail(contact);
                     
                     this.campaign.sent++;
                     localStorage.setItem('analytics_sent', this.campaign.sent);
-                    this.addLog('success', `Delivered to ${contact.email}`);
+                    this.addLog('success', `✓ Delivered to ${contact.email}`);
                 } catch (error) {
                     this.campaign.failed++;
                     localStorage.setItem('analytics_failed', this.campaign.failed);
-                    this.addLog('error', `Failed ${contact.email}: ${error.message}`);
+                    this.addLog('error', `✗ Failed ${contact.email}: ${error.message}`);
                 }
 
                 this.campaign.currentIndex++;
@@ -689,7 +792,7 @@ document.addEventListener('alpine:init', () => {
 
             if (this.campaign.currentIndex >= this.contacts.length) {
                 this.campaign.isSending = false;
-                this.addLog('success', 'Campaign finished!');
+                this.addLog('success', `✓ Campaign finished! Sent: ${this.campaign.sent}, Failed: ${this.campaign.failed}`);
                 this.showToast('Campaign completed!', 'success');
             }
         },
